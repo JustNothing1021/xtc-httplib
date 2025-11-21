@@ -17,9 +17,7 @@ import com.github.unidbg.linux.android.dvm.AbstractJni;
 import com.github.unidbg.linux.android.dvm.DalvikModule;
 import com.github.unidbg.linux.android.dvm.DvmClass;
 import com.github.unidbg.linux.android.dvm.DvmObject;
-import com.github.unidbg.linux.android.dvm.Jni;
 import com.github.unidbg.linux.android.dvm.VM;
-import com.github.unidbg.linux.android.dvm.jni.ProxyClassFactory;
 import com.github.unidbg.memory.Memory;
 
 // DeekSeek写的，我改了一大半
