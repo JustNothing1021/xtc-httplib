@@ -22,7 +22,7 @@ import com.github.unidbg.linux.android.dvm.VM;
 import com.github.unidbg.linux.android.dvm.jni.ProxyClassFactory;
 import com.github.unidbg.memory.Memory;
 
-// DeekSeek写的
+// DeekSeek写的，我改了一大半
 
 /* loaded from: classes3.dex */
 public class XtcSecurity {

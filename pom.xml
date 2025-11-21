@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.justnothing</groupId>
-  <artifactId>xtchttp</artifactId>
+  <artifactId>xtchttplib</artifactId>
   <version>1.0.0</version>
 
-  <name>xtchttp</name>
+  <name>xtchttplib</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -24,7 +24,20 @@
     <json.version>20210307</json.version>
     <junit.version>4.11</junit.version>
     <unidbg.version>0.9.8</unidbg.version>
+    <gdx.version>1.12.1</gdx.version>
   </properties>
+
+
+  <repositories>
+      <repository>
+          <id>gdx-releases</id>
+          <url>https://oss.sonatype.org/content/repositories/releases/</url>
+      </repository>
+      <repository>
+          <id>gdx-snapshots</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      </repository>
+  </repositories>
 
 
   <dependencies>
@@ -78,6 +91,27 @@
       <groupId>com.github.zhkl0228</groupId>
       <artifactId>unidbg-android</artifactId>
       <version>${unidbg.version}</version>
+    </dependency>
+    <!-- libGDX 核心 -->
+    <dependency>
+        <groupId>com.badlogicgames.gdx</groupId>
+        <artifactId>gdx</artifactId>
+        <version>${gdx.version}</version>
+    </dependency>
+      
+    <!-- libGDX 桌面后端 -->
+    <dependency>
+        <groupId>com.badlogicgames.gdx</groupId>
+        <artifactId>gdx-backend-lwjgl3</artifactId>
+        <version>${gdx.version}</version>
+    </dependency>
+    
+    <!-- libGDX 桌面 natives -->
+    <dependency>
+        <groupId>com.badlogicgames.gdx</groupId>
+        <artifactId>gdx-platform</artifactId>
+        <version>${gdx.version}</version>
+        <classifier>natives-desktop</classifier>
     </dependency>
   </dependencies>
 

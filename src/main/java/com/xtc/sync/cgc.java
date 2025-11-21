@@ -14,10 +14,11 @@ import android.text.TextUtils;
 import com.xtc.httplib.bean.EncryptData;
 import com.xtc.httplib.bean.NetBaseResult;
 import com.xtc.httplib.constant.HttpRequestEvent;
-// import com.xtc.im.transpond.ITranspondCallback;
-// import com.xtc.sync.cel;
+import com.xtc.im.transpond.ITranspondCallback;
+import com.xtc.sync.cel;
 import com.xtc.utils.encode.JSONUtil;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,8 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
@@ -61,7 +64,7 @@ public class cgc extends cfr {
     public static boolean f5366a = false;
 
     /* renamed from: a, reason: collision with root package name */
-    public static final List<String> f22979a = new ArrayList();
+    public static final List<String> f22979a = List.of("okii");
 
     /* renamed from: b, reason: collision with other field name */
     public static final List<String> f5367b = new ArrayList();
@@ -73,10 +76,10 @@ public class cgc extends cfr {
     /* JADX INFO: Access modifiers changed from: package-private */
     public cgc(Context context) {
         // super(context);
-        // this.f5372a = new AtomicLong(0L);
-        // this.f5371a = new AtomicInteger(0);
-        // this.f5370a = new CopyOnWriteArrayList<>();
-        // this.f5369a = null;
+        this.f5372a = new AtomicLong(0L);
+        this.f5371a = new AtomicInteger(0);
+        this.f5370a = new CopyOnWriteArrayList<>();
+        this.f5369a = null;
         // this.f5368a = (AlarmManager) context.getSystemService(NotificationCompat.CATEGORY_ALARM);
     }
 
@@ -86,24 +89,48 @@ public class cgc extends cfr {
             return;
         }
         this.f5369a = new a();
-        // this.f5369a.a(this.f5323a);
+        this.f5369a.a(this.f5323a);
     }
 
     @Override // com.xtc.sync.cfr, okhttp3.Interceptor
     public Response intercept(Interceptor.Chain chain) throws IOException {
         long elapsedRealtime = System.currentTimeMillis();
-        // m3080a();
+        m3080a();
         Request request = chain.request();
         // Response a2 = a(chain);
         // if (a2 != null) {
         //     a(request, elapsedRealtime);
         //     return a2;
         // }
-        Response b2 = b(chain);
-        if (b2 != null) {
-            a(request, elapsedRealtime);
-            return b2;
-        }
+        // Response b2 = b(chain);
+        // if (b2 != null) {
+        //     a(request, elapsedRealtime);
+        //     return b2;
+        // }
+        // a(request, elapsedRealtime);
+        // RequestBody body = request.body();
+        // Buffer buffer = new Buffer();
+        // if (body != null) {
+        //     body.writeTo(buffer);
+        // }
+        // String mo9347a = buffer.readString(Charset.forName("UTF-8"));
+        // EncryptData a3 = cfu.a(cen.a(this.f5323a).m3021a(), request);
+        // String eebbkKey = a3.getEebbkKey();
+        // int rsaEncryptType = a3.getRsaEncryptType();
+        // String aesKey = a3.getAesKey();
+        // boolean z = rsaEncryptType != 0;
+        // String a4 = cfu.a(mo9347a, eebbkKey, z, aesKey);
+        // String str = request.url().toString();
+        // byte[] bytes = a4 == null ? null : a4.getBytes();
+        // Map<String, String> a5 = cfu.a(this.f5323a, request, str, mo9347a.getBytes(), eebbkKey, z, rsaEncryptType, aesKey);
+        // Headers a6 = request.headers();
+        // for (Map.Entry<String, String> entry : a5.entrySet()) {
+        //     a6 = a6.newBuilder().add(entry.getKey(), entry.getValue()).build();
+        // }
+        // Request.Builder newBuilder = request.newBuilder()
+        //                         .headers(a6)
+        //                         .method(request.method(), RequestBody.create(MediaType.parse("application/json; charset=utf-8"), bytes));
+        // request = newBuilder.build();
         a(request, elapsedRealtime);
         return chain.proceed(request);
     }
@@ -118,26 +145,26 @@ public class cgc extends cfr {
     private Response b(Interceptor.Chain chain) throws IOException {
         long elapsedRealtime = System.currentTimeMillis();
         // if (elapsedRealtime - this.f5372a.get() < 600000) {
-            // dkw.d(f22980b, "createFromTranspond not in limit time !");
-            // return null;
+        //     dkw.d(f22980b, "createFromTranspond not in limit time !");
+        //     return null;
         // }
         Request request = chain.request();
         String httpUrl = request.url().toString();
         if (!m3081a(httpUrl)) {
             return null;
         }
-        // this.f5372a.set(elapsedRealtime);
+        this.f5372a.set(elapsedRealtime);
         b bVar = new b();
         this.f5370a.add(bVar);
         bVar.f22983a = a();
         Map<String, String> a2 = a(request, httpUrl, bVar);
         // PendingIntent a3 = a(this.f5323a, bVar);
         // a(21000L, a3);
-        // try {
-        //     bVar.a(20000L);
-        // } catch (InterruptedException e) {
-        //     dkw.b(f22980b, e);
-        // }
+        try {
+            bVar.a(20000L);
+        } catch (InterruptedException e) {
+            dkw.b(f22980b, e);
+        }
         // a(a3);
         return a(request, httpUrl, a2, bVar);
     }
@@ -173,14 +200,15 @@ public class cgc extends cfr {
         return true;
     }
 
-    private Map<String, String> a(Request request, String str, Object iTranspondCallback) throws IOException {
-        // int a2 = a(request.method());
+    private Map<String, String> a(Request request, String str, ITranspondCallback iTranspondCallback) throws IOException {
+        int a2 = a2(request.method());
         RequestBody body = request.body();
-        Buffer howVar = new Buffer();
+        // how howVar = new how();
+        Buffer buffer = new Buffer();
         if (body != null) {
-            body.writeTo(howVar);
+            body.writeTo(buffer);
         }
-        String mo9347a = howVar.readString(null);
+        String mo9347a = buffer.readString(Charset.forName("UTF-8"));
         if (TextUtils.isEmpty(mo9347a)) {
             dkw.d(f22980b, "requestByTranspond is empty");
         }
@@ -190,10 +218,10 @@ public class cgc extends cfr {
         String aesKey = a3.getAesKey();
         boolean z = rsaEncryptType != 0;
         String a4 = cfu.a(mo9347a, eebbkKey, z, aesKey);
-        // byte[] bytes = a4 == null ? null : a4.getBytes();
+        byte[] bytes = a4 == null ? null : a4.getBytes();
         Map<String, String> a5 = cfu.a(this.f5323a, request, str, mo9347a.getBytes(), eebbkKey, z, rsaEncryptType, aesKey);
         dkw.c(f22980b, "requestByTranspond url = " + str + ", method = " + request.method() + ", requestBody = " + mo9347a);
-        // dgg.a(str, a2, JSONUtil.toJSON(a5).getBytes(), bytes, iTranspondCallback);
+        dgg.a(str, a2, JSONUtil.toJSON(a5).getBytes(), bytes, iTranspondCallback);
         return a5;
     }
 
@@ -208,28 +236,28 @@ public class cgc extends cfr {
         return new Response.Builder().request(request).protocol(Protocol.HTTP_1_1).message(str + " Http Response Successful").code(Integer.parseInt(cfb.g)).body(create).sentRequestAtMillis(-1L).receivedResponseAtMillis(System.currentTimeMillis()).build();
     }
 
-    // private int a(String str) {
-    //     String lowerCase = str.toLowerCase();
-    //     if (lowerCase.equals("get")) {
-    //         return 1;
-    //     }
-    //     if (lowerCase.equals("post")) {
-    //         return 2;
-    //     }
-    //     if (lowerCase.equals("delete")) {
-    //         return 3;
-    //     }
-    //     if (lowerCase.equals("put")) {
-    //         return 4;
-    //     }
-    //     dkw.e(f22980b, "unknown http method: " + lowerCase);
-    //     return -1;
-    // }
+    private int a2(String str) {
+        String lowerCase = str.toLowerCase();
+        if (lowerCase.equals("get")) {
+            return 1;
+        }
+        if (lowerCase.equals("post")) {
+            return 2;
+        }
+        if (lowerCase.equals("delete")) {
+            return 3;
+        }
+        if (lowerCase.equals("put")) {
+            return 4;
+        }
+        dkw.e(f22980b, "unknown http method: " + lowerCase);
+        return -1;
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: PreprocessorInterceptor.java */
     /* loaded from: classes5.dex */
-    public class b {
+    public class b extends ITranspondCallback.a {
 
         /* renamed from: a, reason: collision with other field name */
         byte[] f5376a;
@@ -247,7 +275,7 @@ public class cgc extends cfr {
         }
 
         public synchronized void a(long j) throws InterruptedException {
-            wait(j);
+            // wait(j);
         }
 
         public synchronized void a() {
@@ -255,23 +283,23 @@ public class cgc extends cfr {
             notify();
         }
 
-        // @Override // com.xtc.im.transpond.ITranspondCallback
-        // public synchronized void onSuccess(byte[] bArr, int i) throws RemoteException {
-        //     if (bArr != null) {
-        //         if (bArr.length > 0) {
-        //             this.f5376a = bArr;
-        //         }
-        //     }
-        //     this.f22984b = true;
-        //     notify();
-        // }
+        @Override // com.xtc.im.transpond.ITranspondCallback
+        public synchronized void onSuccess(byte[] bArr, int i) /* throws RemoteException */ {
+            if (bArr != null) {
+                if (bArr.length > 0) {
+                    this.f5376a = bArr;
+                }
+            }
+            this.f22984b = true;
+            notify();
+        }
 
-        // @Override // com.xtc.im.transpond.ITranspondCallback
-        // public synchronized void onError(String str) {
-        //     dkw.e(cgc.f22980b, "http transmit failed:" + str);
-        //     this.f22984b = false;
-        //     notify();
-        // }
+        @Override // com.xtc.im.transpond.ITranspondCallback
+        public synchronized void onError(String str) {
+            dkw.e(cgc.f22980b, "http transmit failed:" + str);
+            this.f22984b = false;
+            notify();
+        }
     }
 
     // private void a(long j, PendingIntent pendingIntent) {
@@ -305,7 +333,7 @@ public class cgc extends cfr {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: PreprocessorInterceptor.java */
     /* loaded from: classes5.dex */
-    public class a {
+    public class a /* extends BroadcastReceiver */ {
 
         /* renamed from: a, reason: collision with root package name */
         public static final String f22981a = "com.xtc.httplib.IMTranspond.TIME_OUT";
@@ -316,31 +344,31 @@ public class cgc extends cfr {
         a() {
         }
 
-        // public void a(Context context) {
-        //     IntentFilter intentFilter = new IntentFilter();
-        //     intentFilter.addAction(f22981a);
-        //     context.registerReceiver(this, intentFilter);
-        // }
+        public void a(Context context) {
+            // IntentFilter intentFilter = new IntentFilter();
+            // intentFilter.addAction(f22981a);
+            // context.registerReceiver(this, intentFilter);
+        }
 
         // @Override // android.content.BroadcastReceiver
-        // public void onReceive(Context context, Intent intent) {
-        //     if (intent == null || TextUtils.isEmpty(intent.getAction())) {
-        //         dkw.e(cgc.f22980b, "intent is null");
-        //         return;
-        //     }
-        //     if (f22981a.equals(intent.getAction())) {
-        //         int intExtra = intent.getIntExtra(f22982b, -1);
-        //         dkw.c(cgc.f22980b, "receive time out alarm requestCode = " + intExtra);
-        //         if (intExtra != -1) {
-        //             b a2 = cgc.this.a(intExtra);
-        //             if (a2 == null) {
-        //                 dkw.d(cgc.f22980b, "receive time out alarm tag is null");
-        //             } else {
-        //                 a2.a();
-        //             }
-        //         }
-        //     }
-        // }
+        public void onReceive(Context context, Object intent) {
+            // if (intent == null || TextUtils.isEmpty(intent.getAction())) {
+            //     dkw.e(cgc.f22980b, "intent is null");
+            //     return;
+            // }
+            // if (f22981a.equals(intent.getAction())) {
+            //     int intExtra = intent.getIntExtra(f22982b, -1);
+            //     dkw.c(cgc.f22980b, "receive time out alarm requestCode = " + intExtra);
+            //     if (intExtra != -1) {
+            //         b a2 = cgc.this.a(intExtra);
+            //         if (a2 == null) {
+            //             dkw.d(cgc.f22980b, "receive time out alarm tag is null");
+            //         } else {
+            //             a2.a();
+            //         }
+            //     }
+            // }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.google.protobuf.ExtensionRegistryLite;
 import com.justnothing.xtchttplib.ContextManager;
+import com.justnothing.xtchttplib.NetworkInterceptor;
 import com.xtc.httplib.constant.HttpConstants;
+import com.xtc.sync.BridgeInterceptor;
 // import android.content.pm.PackageInfo;
 // import android.os.Process;
 // import android.os.SystemClock;
@@ -14,7 +16,9 @@ import com.xtc.httplib.constant.TcpTimeoutConfig;
 import com.xtc.utils.encode.JSONUtil;
 // import com.xtc.utils.storage.SharedManager;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -22,6 +26,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.ConnectionPool;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -176,6 +183,26 @@ public class cft extends cem {
         m3066a(this.f5235a);
         // builder.dns(this.f5330a);
         // builder.eventListenerFactory(this.f5330a);
+        CookieJar cookieJar = new CookieJar() {
+            private final List<Cookie> cookieStore = new ArrayList<>();
+        
+            @Override
+            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                cookieStore.addAll(cookies);
+            }
+            
+            @Override
+            public List<Cookie> loadForRequest(HttpUrl url) {
+                List<Cookie> matchingCookies = new ArrayList<>();
+                for (Cookie cookie : cookieStore) {
+                    if (cookie.matches(url)) {
+                        matchingCookies.add(cookie);
+                    }
+                }
+                return matchingCookies;
+            }
+        };
+        builder.cookieJar(cookieJar);
         builder.connectTimeout(f22955a, TimeUnit.MILLISECONDS);
         builder.writeTimeout(f22956b, TimeUnit.MILLISECONDS);
         builder.readTimeout(c, TimeUnit.MILLISECONDS);
@@ -191,6 +218,8 @@ public class cft extends cem {
             // builder.addInterceptor(new cfx(this.f5235a));
         // }
         builder.addInterceptor(new cfw(this.f5235a, this));
+        builder.addInterceptor(new BridgeInterceptor(cookieJar));
+        builder.addInterceptor(new NetworkInterceptor());
         // builder.addInterceptor(new ImBridgeInterceptor());
         // builder.addInterceptor(new cgd(this.f5235a));
         return builder;

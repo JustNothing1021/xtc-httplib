@@ -20,6 +20,7 @@ import java.util.Map;
 import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okio.Buffer;
 import retrofit2.Invocation;
 
 /* compiled from: HttpHelper.java */
@@ -114,13 +115,24 @@ public class cfu {
         if (!a(str2)) {
             return ekg.a(ekj.a(str, "utf-8"), str3);
         }
-        dkw.d(f22961a, "eebbkKey is null,eebbkKey:" + str2);
+        dkw.d(f22961a, "eebbkKey is null, eebbkKey:" + str2);
         return str;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public static String a(RequestBody requestBody) {
-        return requestBody != null ? requestBody.toString() : null;
+        if (requestBody == null) {
+            return null;
+        }
+        try {
+            Buffer buf = new Buffer();
+            requestBody.writeTo(buf);
+            return buf.readString(Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            dkw.a(e);
+            return null;
+        }
+
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
