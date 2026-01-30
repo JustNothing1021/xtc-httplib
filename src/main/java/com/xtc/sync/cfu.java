@@ -11,6 +11,7 @@ import com.xtc.utils.encode.JSONUtil;
 import com.xtc.utils.security.XtcSecurity;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -253,6 +254,11 @@ public class cfu {
             dkw.e(f22961a, "decryptAESToByte result is null");
         }
         byte[] a2 = ekj.a(bArr);
-        return a2 != null ? new String(a2) : str;
+        try {
+            return a2 != null ? new String(a2, "UTF-8") : str;
+        } catch (java.io.UnsupportedEncodingException e) {
+            dkw.e(f22961a, "decryptAESToByte UnsupportedEncodingException: ", e);
+            return str;
+        }
     }
 }

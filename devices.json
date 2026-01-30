@@ -1,0 +1,40 @@
+{
+    "currentDevice": "opyycytvalaftsgh",
+    "devices": [{
+        "lastUpdated": "2026-01-30T23:28:16",
+        "adbDeviceId": "1a99954",
+        "context": {
+            "softVersion": "3.2.0",
+            "packageVersionName": "8.1.0",
+            "serverInner": "",
+            "encSwitch": "1",
+            "language": "zh",
+            "locale": "zh-CN",
+            "rsaPublicKey": "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAL9n5AXhw1raL2B6O52LRKOcqjHydrFD4m+lFJW3xv/viRutOim4twKFlamB/edfz1KqydsMTVqsDCRiz8UuKU0CAwEAAQ==",
+            "buildRelease": "8.1.0",
+            "watchModel": "Z8",
+            "watchId": "f1e744ad87a44832b3430ed555fdab0d02111376",
+            "innerModelEx": "",
+            "dataCenterCode": "CN_BJ",
+            "packageName": "android",
+            "androidSdk": 27,
+            "chipId": "000000700000010001a9995400040009",
+            "hardware": "qcom",
+            "showModel": "",
+            "ae": "KeyEncrypto6mn1i79117h;2;7h530o44<3n:oo8_rOhO1qCPC_nnvOfkdEXVJkqmvSO3PRo{w;v;lBD]v1\\TBVuak|BCBJcLqr:imNOdW2D^1l[9tx0`8AGH4KE7\\><V[=m8j0i:m534:0j0=jm7lp",
+            "innerModel": "I32",
+            "packageVersionCode": 27,
+            "timeZone": "GMT+08:00",
+            "grey": "0",
+            "caremeOsVersion": "3.0",
+            "buildType": "user",
+            "bindNumber": "opyycytvalaftsgh",
+            "region": "",
+            "ts": 1,
+            "macAddr": "04:d4:42:c8:2c:2f",
+            "watchPriModel": ""
+        },
+        "bindNumber": "opyycytvalaftsgh",
+        "deviceName": "Z8"
+    }]
+}

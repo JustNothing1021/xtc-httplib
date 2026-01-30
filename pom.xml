@@ -26,6 +26,7 @@
     <unidbg.version>0.9.8</unidbg.version>
     <gdx.version>1.12.1</gdx.version>
     <retrofit2.version>2.11.0</retrofit2.version>
+    <javafx.version>21.0.1</javafx.version>
   </properties>
 
 
@@ -109,6 +110,16 @@
         <version>${gdx.version}</version>
         <classifier>natives-desktop</classifier>
     </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>${javafx.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -163,7 +174,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <mainClass>com.justnothing.xtchttplib3.demo.XtcHttpDemo</mainClass>
+          <mainClass>com.justnothing.xtchttplib.DeviceManagerGUI</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -179,12 +190,37 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.justnothing.xtchttplib3.demo.XtcHttpDemo</mainClass>
+                  <mainClass>com.justnothing.xtchttplib.DeviceManagerGUI</mainClass>
                 </transformer>
               </transformers>
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <configuration>
+          <mainClass>com.justnothing.xtchttplib.DeviceManagerGUI</mainClass>
+          <options>
+            <option>--add-opens=java.base/java.lang=ALL-UNNAMED</option>
+            <option>--add-opens=java.base/java.io=ALL-UNNAMED</option>
+            <option>--add-opens=java.base/java.util=ALL-UNNAMED</option>
+            <option>--add-opens=java.base/java.util.concurrent=ALL-UNNAMED</option>
+            <option>--add-opens=javafx.controls/javafx.scene.control=ALL-UNNAMED</option>
+            <option>--add-opens=javafx.graphics/javafx.scene=ALL-UNNAMED</option>
+          </options>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>com.justnothing.xtchttplib.DeviceManagerGUI</mainClass>
+          <commandlineArgs>--module-path "%PATH_TO_FX%" --add-modules javafx.controls,javafx.fxml</commandlineArgs>
+        </configuration>
       </plugin>
     </plugins>
   </build>
