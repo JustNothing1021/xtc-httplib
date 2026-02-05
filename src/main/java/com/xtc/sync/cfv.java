@@ -29,10 +29,15 @@ public class cfv extends cfr {
     /* renamed from: a, reason: collision with root package name */
     private cem f22963a;
 
+    public ContextManager contextManager;
+    public elw watchModelUtil;
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public cfv(Context context, cem cemVar) {
+    public cfv(Context context, cem cemVar, ContextManager contextManager) {
         // super(context);
+        this.contextManager = contextManager;
         this.f22963a = cemVar;
+        this.watchModelUtil = new elw(contextManager);
     }
 
     @Override // com.xtc.sync.cfr, okhttp3.Interceptor
@@ -119,14 +124,23 @@ public class cfv extends cfr {
 
     private void a(Request request, Request.Builder builder, String str, String str2, String str3, boolean z, int i) {
         try {
+            if (watchModelUtil == null) {
+                dkw.e(f22962b, "watchModelUtil is null in cfv.a()");
+                new Exception("watchModelUtil is null").printStackTrace();
+                watchModelUtil = new elw(contextManager);
+            }
+            if (contextManager == null) {
+                dkw.e(f22962b, "contextManager is null in cfv.a()");
+                new Exception("contextManager is null").printStackTrace();
+            }
             a(request, builder, "Content-Type", cel.a.f);
-            a(request, builder, "model", elw.a());
+            a(request, builder, "model", watchModelUtil.a());
             a(request, builder, cel.a.n, String.valueOf(102));
             a(request, builder, cel.a.q, String.valueOf(this.f22963a.mo3069a()));
             a(request, builder, "packageName", this.f22963a.mo3073b());
             builder.header(cel.a.g, str);
             builder.header(cel.a.f22882b, str2);
-            String m2760a = ContextManager.getInstance().getDataCenterCode();
+            String m2760a = contextManager != null ? contextManager.getDataCenterCode() : null;
             if (!TextUtils.isEmpty(m2760a)) {
                 builder.header(cel.a.t, m2760a);
             }
@@ -158,13 +172,13 @@ public class cfv extends cfr {
                 builder.addHeader(cel.a.s, cel.a.s);
                 builder.addHeader("Content-Encoding", "gzip");
             }
-            if (!TextUtils.isEmpty(cen.a(this.f5323a).m3022a())) {
-                builder.addHeader("Accept-Language", cen.a(this.f5323a).m3022a());
+            if (!TextUtils.isEmpty(cen.a(contextManager).m3022a())) {
+                builder.addHeader("Accept-Language", cen.a(contextManager).m3022a());
             }
-            if (TextUtils.isEmpty(cen.a(this.f5323a).b())) {
+            if (TextUtils.isEmpty(cen.a(contextManager).b())) {
                 return;
             }
-            builder.addHeader(cel.a.p, cen.a(this.f5323a).b());
+            builder.addHeader(cel.a.p, cen.a(contextManager).b());
         } catch (Exception e) {
             dkw.b(f22962b, e);
         }

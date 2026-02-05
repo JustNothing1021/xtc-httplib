@@ -8,7 +8,7 @@ import com.justnothing.xtchttplib.ContextManager;
 import com.xtc.system.account.bean.HttpConfig;
 // import com.xtc.system.account.bean.ImAccountInfo;
 // import com.xtc.system.account.bean.WatchInfo;
-import com.xtc.utils.encode.JSONUtil;
+// import com.xtc.utils.encode.JSONUtil;
 // import com.xtc.utils.storage.ShareDBHelper;
 // import com.xtc.utils.storage.ShareUserIdUtil;
 
@@ -22,6 +22,7 @@ public class dxa {
     /* renamed from: b, reason: collision with root package name */
     private static final String f25384b = "com.xtc.i3launcher";
     private static final String c = "i3launcher.db";
+
 
     /* compiled from: InitServiceData.java */
     /* loaded from: classes2.dex */
@@ -94,16 +95,16 @@ public class dxa {
         Code decompiled incorrectly, please refer to instructions dump.
         To view partially-correct code enable 'Show inconsistent code' option in preferences
     */
-    public static HttpConfig a(Context context) {
+    public HttpConfig a(Context context, ContextManager contextManager) {
 
 
-        String grey = ContextManager.getInstance().getGrey();
-        String rsaPublicKey = ContextManager.getInstance().getRsaPublicKey();
-        String encSwitch = ContextManager.getInstance().getEncSwitch();
-        String selfRsaPublicKey = ContextManager.getInstance().getSelfRsaPublicKey();
-        String httpHeadParam = ContextManager.getInstance().getHttpHeadParam();
-        int ts = ContextManager.getInstance().getTs();
-        String ae = ContextManager.getInstance().getAe();
+        String grey = contextManager.getGrey();
+        String rsaPublicKey = contextManager.getRsaPublicKey();
+        String encSwitch = contextManager.getEncSwitch();
+        String selfRsaPublicKey = contextManager.getSelfRsaPublicKey();
+        String httpHeadParam = contextManager.getHttpHeadParam();
+        int ts = contextManager.getTs();
+        String ae = contextManager.getAe();
 
         dkw.c(TAG, "grey = " + grey + 
             ", rsaPublicKey = " + rsaPublicKey + 

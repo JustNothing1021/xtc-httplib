@@ -4,6 +4,8 @@ import android.content.Context;
 // import android.content.Intent;
 // import android.content.IntentFilter;
 import android.text.TextUtils;
+
+import com.justnothing.xtchttplib.ContextManager;
 // import com.xtc.bigdata.common.utils.AbsAsyncBroadcastReceiver;
 // import com.xtc.im.core.common.LogTag;
 import com.xtc.system.account.bean.HttpConfig;
@@ -31,6 +33,7 @@ public class del {
     /* renamed from: a, reason: collision with other field name */
     private int f6706a = 2;
 
+    public ContextManager contextManager;
     /* compiled from: RsaPublicKeyManager.java */
     /* loaded from: classes5.dex */
     interface b {
@@ -87,7 +90,7 @@ public class del {
     // }
 
     public void b(Context context) {
-        dwx a2 = dwx.a(context);
+        dwx a2 = dwx.a(context, null, contextManager);
         synchronized (this) {
             this.f24354b = a2.g();
             this.f6706a = a2.m4420a();

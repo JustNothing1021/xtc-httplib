@@ -2,6 +2,7 @@ package com.xtc.sync;
 
 import android.content.Context;
 import android.text.TextUtils;
+import com.justnothing.xtchttplib.ContextManager;
 import com.xtc.httplib.bean.AppInfo;
 import com.xtc.httplib.bean.DeviceInfo;
 import com.xtc.httplib.bean.WatchInfo;
@@ -30,6 +31,8 @@ public abstract class cem {
 
     /* renamed from: b, reason: collision with root package name */
     private String f22894b;
+
+    public ContextManager contextManager;
 
     /* renamed from: a */
     public abstract int mo3069a();
@@ -63,15 +66,16 @@ public abstract class cem {
         return null;
     }
 
-    public cem(Context context) {
+    public cem(Context context, ContextManager manager) {
         // this.f5235a = context.getApplicationContext();
-        this.f5237a = new WatchInfo(context);
+        this.contextManager = manager;
+        this.f5237a = new WatchInfo(context, this.contextManager);
     }
 
     /* renamed from: a, reason: collision with other method in class */
     public String m3017a() {
         if (TextUtils.isEmpty(this.f22894b)) {
-            this.f22894b = cen.m3018a(this.f5235a);
+            this.f22894b = cen.m3018a(this.f5235a, this.contextManager);
         }
         return this.f22894b;
     }
@@ -111,7 +115,7 @@ public abstract class cem {
     /* renamed from: a, reason: collision with other method in class */
     public synchronized AppInfo m3015a() {
         if (this.f5236a == null) {
-            this.f5236a = cen.a(this.f5235a).m3020a();
+            this.f5236a = cen.a(this.contextManager).m3020a();
         }
         return this.f5236a;
     }

@@ -1,5 +1,7 @@
 /.vscode
 /logs
 /target
-/src/main/java/com/justnothing/xtchttplib/MyConfig.java
 /sources
+/data
+/*.json
+/.idea

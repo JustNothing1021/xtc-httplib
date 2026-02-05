@@ -2,6 +2,8 @@ package com.xtc.sync;
 
 import android.content.Context;
 import android.text.TextUtils;
+
+import com.justnothing.xtchttplib.ContextManager;
 import com.xtc.httplib.bean.AppInfo;
 import com.xtc.httplib.bean.DeviceInfo;
 import com.xtc.httplib.bean.EncryptData;
@@ -11,6 +13,7 @@ import com.xtc.utils.encode.JSONUtil;
 import com.xtc.utils.security.XtcSecurity;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +24,6 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okio.Buffer;
-import retrofit2.Invocation;
 
 /* compiled from: HttpHelper.java */
 /* loaded from: classes5.dex */
@@ -30,7 +32,11 @@ public class cfu {
     /* renamed from: a, reason: collision with root package name */
     private static final String f22961a = ceo.a("DefaultOkHttpClient");
 
-    public static String a(String str, String str2, boolean z, String str3) {
+    public static String a(String str, String str2, boolean z, String str3, elw watchModelUtil) {
+        if (watchModelUtil == null) {
+            dkw.e(f22961a, "watchModelUtil is null in cfu.a(String, String, boolean, String, elw)");
+            new Exception("watchModelUtil is null").printStackTrace();
+        }
         if (!a(str) && !a(str2) && z) {
             str = a(str, str2, str3);
         }
@@ -38,9 +44,15 @@ public class cfu {
         return str;
     }
 
-    public static Map<String, String> a(Context context, Request request, String str, byte[] bArr, String str2, boolean z, int i, String str3) {
-        cem m3021a = cen.a(context).m3021a();
-        HashMap hashMap = new HashMap();
+    public static Map<String, String> a(Context context, Request request, String str, byte[] bArr, String str2, 
+        boolean z, int i, String str3, elw watchModelUtil, ContextManager contextManager) {
+        if (watchModelUtil == null) {
+            dkw.e(f22961a, "watchModelUtil is null in cfu.a()");
+            new Exception("watchModelUtil is null").printStackTrace();
+            watchModelUtil = new elw(contextManager);
+        }
+        cem m3021a = cen.a(contextManager).m3021a();
+        HashMap<String, String> hashMap = new HashMap<>();
         a(request, hashMap, "Content-Type", cel.a.f);
         String a2 = a(m3021a);
         String a3 = (a(str2) || !z) ? a2 : a(a2, str3);
@@ -48,7 +60,7 @@ public class cfu {
         hashMap.put(cel.a.g, a4);
         cev.a().a(a4, str3);
         hashMap.put(cel.a.f22882b, a3);
-        a(request, hashMap, "model", elw.a());
+        a(request, hashMap, "model", watchModelUtil.a());
         a(request, hashMap, cel.a.n, String.valueOf(102));
         a(request, hashMap, cel.a.q, String.valueOf(m3021a.mo3069a()));
         a(request, hashMap, "packageName", m3021a.mo3073b());
@@ -75,15 +87,17 @@ public class cfu {
             hashMap.put(cel.a.s, cel.a.s);
             hashMap.put("Content-Encoding", "gzip");
         }
-        if (!TextUtils.isEmpty(cen.a(context).m3022a())) {
-            hashMap.put("Accept-Language", cen.a(context).m3022a());
+        if (!TextUtils.isEmpty(cen.a(contextManager).m3022a())) {
+            hashMap.put("Accept-Language", cen.a(contextManager).m3022a());
         }
-        if (!TextUtils.isEmpty(cen.a(context).b())) {
-            hashMap.put(cel.a.p, cen.a(context).b());
+        if (!TextUtils.isEmpty(cen.a(contextManager).b())) {
+            hashMap.put(cel.a.p, cen.a(contextManager).b());
         }
         dkw.c(f22961a, "generateHeaderMap:" + hashMap);
         return hashMap;
     }
+
+
 
     private static void a(Request request, Map<String, String> map, String str, String str2) {
         String str3 = request.headers().get(str);
@@ -94,8 +108,8 @@ public class cfu {
         dkw.c(f22961a, "addHeader tempValue:" + str3);
     }
 
-    public static String a(Context context, Map<String, String> map, String str, Request request) {
-        String m3076a = m3076a(cen.a(context).m3021a(), request);
+    public static String a(Context context, Map<String, String> map, String str, Request request, ContextManager contextManager) {
+        String m3076a = m3076a(cen.a(contextManager).m3021a(), request);
         if (a(str) || a(m3076a)) {
             dkw.e(f22961a, "decodeHttpResult:eebbkKey is null or http response body is nll.");
         } else if (map != null) {
@@ -253,6 +267,11 @@ public class cfu {
             dkw.e(f22961a, "decryptAESToByte result is null");
         }
         byte[] a2 = ekj.a(bArr);
-        return a2 != null ? new String(a2) : str;
+        try {
+            return a2 != null ? new String(a2, "UTF-8") : str;
+        } catch (java.io.UnsupportedEncodingException e) {
+            dkw.e(f22961a, "decryptAESToByte UnsupportedEncodingException: ", e);
+            return str;
+        }
     }
 }

@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.justnothing.xtchttplib.DeviceManagerController"
+            prefWidth="1400" prefHeight="900">
+
+    <top>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header">
+                <padding>
+                    <Insets top="15" right="20" bottom="15" left="20"/>
+                </padding>
+                <Label text="XTCHTTPLIB 设备管理器界面" styleClass="title">
+                    <font>
+                        <Font name="System Bold" size="20"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="statusLabel" text="就绪" styleClass="status"/>
+                <Button text="关闭" onAction="#onClose" styleClass="btn-close"/>
+            </HBox>
+            <Separator/>
+        </VBox>
+    </top>
+
+    <left>
+        <VBox spacing="10" styleClass="sidebar">
+            <padding>
+                <Insets top="15" right="10" bottom="15" left="10"/>
+            </padding>
+            
+            <Label text="设备列表 (单击选中后可以操作)" styleClass="section-title">
+                <font>
+                    <Font name="System Bold" size="14"/>
+                </font>
+            </Label>
+            
+            <ListView fx:id="deviceListView" VBox.vgrow="ALWAYS" styleClass="device-list"/>
+            
+            <HBox spacing="5" alignment="CENTER">
+                <Button text="从ADB添加" onAction="#onAddFromADB" styleClass="btn-primary" HBox.hgrow="ALWAYS"/>
+                <Button text="从JSON添加" onAction="#onAddFromJson" styleClass="btn-secondary" HBox.hgrow="ALWAYS"/>
+            </HBox>
+            
+            <HBox spacing="5" alignment="CENTER">
+                <Button text="切换到设备" onAction="#onSwitchDevice" styleClass="btn-success" HBox.hgrow="ALWAYS"/>
+                <Button text="重命名设备" onAction="#onRenameDevice" styleClass="btn-secondary" HBox.hgrow="ALWAYS"/>
+            </HBox>
+            
+            <HBox spacing="5" alignment="CENTER">
+                <Button text="删除设备" onAction="#onRemoveDevice" styleClass="btn-danger" HBox.hgrow="ALWAYS"/>
+                <Button text="导出配置" onAction="#onExportDevice" styleClass="btn-secondary" HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+    </left>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" styleClass="main-tabs">
+            
+            <Tab text="设备信息">
+                <ScrollPane fitToWidth="true" fitToHeight="true">
+                    <VBox spacing="10" styleClass="content-panel">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        
+                        <Label text="设备信息管理" styleClass="section-title">
+                            <font>
+                                <Font name="System Bold" size="16"/>
+                            </font>
+                        </Label>
+                        
+                        <HBox spacing="15" alignment="TOP_LEFT">
+                            <!-- 左侧：设备基本信息 -->
+                            <VBox spacing="10" prefWidth="550" maxWidth="550">
+                                
+                                <!-- 设备基本信息区域 -->
+                                <VBox spacing="5" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;">
+                                    <Label text="设备基本信息" styleClass="section-title">
+                                        <font>
+                                            <Font name="System Bold" size="12"/>
+                                        </font>
+                                    </Label>
+                                    
+                                    <GridPane hgap="8" vgap="5" styleClass="request-grid">
+                                        <columnConstraints>
+                                            <ColumnConstraints prefWidth="180" hgrow="NEVER"/>
+                                            <ColumnConstraints prefWidth="450" hgrow="ALWAYS"/>
+                                        </columnConstraints>
+                                        <Label text="设备名:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                        <TextField fx:id="deviceNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="BindNumber:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="bindNumberField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="WatchId:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="watchIdField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="MacAddr:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                        <TextField fx:id="macAddrField" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="ChipId:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                        <TextField fx:id="chipIdField" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="Model:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                                        <TextField fx:id="modelField" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="SoftVersion:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                                        <TextField fx:id="versionField" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="AndroidSdk:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                                        <TextField fx:id="androidSdkField" GridPane.columnIndex="1" GridPane.rowIndex="7" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="Hardware:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+                                        <TextField fx:id="hardwareField" GridPane.columnIndex="1" GridPane.rowIndex="8" styleClass="info-field" prefHeight="24"/>
+                                    </GridPane>
+                                </VBox>
+                                
+                                <!-- 系统信息区域 -->
+                                <VBox spacing="5" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;">
+                                    <Label text="系统信息" styleClass="section-title">
+                                        <font>
+                                            <Font name="System Bold" size="12"/>
+                                        </font>
+                                    </Label>
+                                    
+                                    <GridPane hgap="8" vgap="5" styleClass="request-grid">
+                                        <columnConstraints>
+                                            <ColumnConstraints prefWidth="180" hgrow="NEVER"/>
+                                            <ColumnConstraints prefWidth="450" hgrow="ALWAYS"/>
+                                        </columnConstraints>
+                                        <Label text="Language:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                        <TextField fx:id="languageField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="Region:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="regionField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="TimeZone:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="timeZoneField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="DataCenterCode:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                        <TextField fx:id="dataCenterField" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="info-field" prefHeight="24"/>
+                                    </GridPane>
+                                </VBox>
+                            </VBox>
+                            
+                            <!-- 右侧：网络加密参数 -->
+                            <VBox spacing="10" prefWidth="550" maxWidth="550">
+                                
+                                <!-- 网络加密参数区域 -->
+                                <VBox spacing="5" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;">
+                                    <Label text="网络加密参数" styleClass="section-title">
+                                        <font>
+                                            <Font name="System Bold" size="12"/>
+                                        </font>
+                                    </Label>
+                                    
+                                    <GridPane hgap="8" vgap="5" styleClass="request-grid">
+                                        <columnConstraints>
+                                            <ColumnConstraints prefWidth="180" hgrow="NEVER"/>
+                                            <ColumnConstraints prefWidth="450" hgrow="ALWAYS"/>
+                                        </columnConstraints>
+                                        <Label text="Grey:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                        <TextField fx:id="greyField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="TokenState:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="tsField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="Ae:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="aeField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="EncSwitch:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                        <TextField fx:id="encSwitchField" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="RsaPublicKey:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                        <TextField fx:id="rsaPublicKeyField" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="SelfRsaPublicKey:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                                        <TextField fx:id="selfRsaPublicKeyField" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="HttpHeadParam:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                                        <TextField fx:id="httpHeadParamField" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="info-field" prefHeight="24"/>
+                                    </GridPane>
+                                </VBox>
+                                
+                                <!-- 设备型号信息区域 -->
+                                <VBox spacing="5" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;">
+                                    <Label text="设备型号信息" styleClass="section-title">
+                                        <font>
+                                            <Font name="System Bold" size="12"/>
+                                        </font>
+                                    </Label>
+                                    
+                                    <GridPane hgap="8" vgap="5" styleClass="request-grid">
+                                        <columnConstraints>
+                                            <ColumnConstraints prefWidth="180" hgrow="NEVER"/>
+                                            <ColumnConstraints prefWidth="450" hgrow="ALWAYS"/>
+                                        </columnConstraints>
+                                        <Label text="InnerModel:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                        <TextField fx:id="innerModelField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="ServerInner:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="serverInnerField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="Locale:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="localeField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="InnerModelEx:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                        <TextField fx:id="innerModelExField" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="WatchPriModel:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                        <TextField fx:id="watchPriModelField" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="BuildType:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                                        <TextField fx:id="buildTypeField" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="CaremeOsVersion:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                                        <TextField fx:id="caremeOsVersionField" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="ShowModel:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                                        <TextField fx:id="showModelField" GridPane.columnIndex="1" GridPane.rowIndex="7" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="BuildRelease:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+                                        <TextField fx:id="buildReleaseField" GridPane.columnIndex="1" GridPane.rowIndex="8" styleClass="info-field" prefHeight="24"/>
+                                    </GridPane>
+                                </VBox>
+                            </VBox>
+                        </HBox>
+                        
+                        <HBox spacing="10" alignment="CENTER">
+                            <Button text="保存参数" onAction="#onUpdateParams" styleClass="btn-primary" prefWidth="100"/>
+                            <Button text="清空参数" onAction="#onClearParams" styleClass="btn-secondary" prefWidth="100"/>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            
+            <Tab text="编辑请求">
+                <ScrollPane fitToWidth="true" fitToHeight="true">
+                    <VBox spacing="10" styleClass="content-panel">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        
+                        <Label text="编辑HTTP请求" styleClass="section-title">
+                            <font>
+                                <Font name="System Bold" size="16"/>
+                            </font>
+                        </Label>
+                        
+                        <HBox spacing="15" alignment="TOP_LEFT">
+                            <!-- 左侧：应用信息和HTTP请求 -->
+                            <VBox spacing="10" prefWidth="550" maxWidth="550">
+                                
+                                <!-- 应用信息区域 -->
+                                <VBox spacing="5" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;">
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
+                                        <Label text="应用信息" styleClass="section-title">
+                                            <font>
+                                                <Font name="System Bold" size="12"/>
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Button text="添加应用配置" onAction="#onAddPackageConfig" styleClass="btn-secondary" prefHeight="24"/>
+                                    </HBox>
+                                    
+                                    <GridPane hgap="8" vgap="5" styleClass="request-grid">
+                                        <columnConstraints>
+                                            <ColumnConstraints prefWidth="180" hgrow="NEVER"/>
+                                            <ColumnConstraints prefWidth="450" hgrow="ALWAYS"/>
+                                        </columnConstraints>
+                                        <Label text="PackageName:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                        <ComboBox fx:id="packageNameCombo" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="VersionName:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="versionNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="info-field" prefHeight="24"/>
+                                        
+                                        <Label text="VersionCode:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="versionCodeField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="info-field" prefHeight="24"/>
+                                    </GridPane>
+                                </VBox>
+                                
+                                <!-- HTTP请求区域 -->
+                                <VBox spacing="5" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;">
+                                    <Label text="HTTP请求" styleClass="section-title">
+                                        <font>
+                                            <Font name="System Bold" size="12"/>
+                                        </font>
+                                    </Label>
+                                    
+                                    <GridPane hgap="8" vgap="5" styleClass="request-grid">
+                                        <columnConstraints>
+                                            <ColumnConstraints prefWidth="180" hgrow="NEVER"/>
+                                            <ColumnConstraints prefWidth="450" hgrow="ALWAYS"/>
+                                        </columnConstraints>
+                                        <Label text="方法:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                        <ComboBox fx:id="methodCombo" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="info-field" prefHeight="32"/>
+                                        
+                                        <Label text="URL:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="urlField" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="info-field" promptText="接口网址..." prefHeight="24"/>
+                                        
+                                        <Label text="请求体:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <TextArea fx:id="requestBodyArea" GridPane.columnIndex="1" GridPane.rowIndex="2" 
+                                                  style="-fx-background-color: #6f6f6f; -fx-text-fill: #000000; -fx-font-family: 'Consolas', 'Monaco', monospace; -fx-font-size: 13px; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" prefRowCount="4" wrapText="true" promptText='Json数据' minHeight="120" prefHeight="120" maxHeight="120"/>
+                                    </GridPane>
+                                    
+                                    <HBox spacing="10" alignment="CENTER">
+                                        <Button text="发送请求" onAction="#onSendRequest" styleClass="btn-primary" prefWidth="100"/>
+                                        <CheckBox fx:id="decryptResponseCheck" text="解密响应" selected="true"/>
+                                    </HBox>
+                                </VBox>
+                                
+                                <!-- 响应结果区域 -->
+                                <VBox spacing="5" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;">
+                                    <HBox spacing="10" alignment="CENTER_LEFT">
+                                        <Label text="响应结果" styleClass="section-title">
+                                            <font>
+                                                <Font name="System Bold" size="12"/>
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="responseStatusLabel" styleClass="response-status"/>
+                                        <Button text="复制" onAction="#onCopyResponse" styleClass="btn-secondary"/>
+                                    </HBox>
+                                    
+                                    <TextArea fx:id="responseArea" VBox.vgrow="ALWAYS" 
+                                              style="-fx-background-color: #6f6f6f; -fx-text-fill: #000000; -fx-font-family: 'Consolas', 'Monaco', monospace; -fx-font-size: 13px; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"
+                                              editable="false" wrapText="true" minHeight="150" prefHeight="150"/>
+                                </VBox>
+                            </VBox>
+                            
+                            <!-- 右侧：参数列表 -->
+                            <VBox spacing="5" prefWidth="250" maxWidth="250" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 4; -fx-padding: 10;" VBox.vgrow="ALWAYS">
+                                <Label text="参数格式化" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                                <ComboBox fx:id="parameterCombo" promptText="选择参数" style="-fx-font-size: 11px;" prefHeight="24"/>
+                                
+                                <Label text="已选参数:" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 5 0 0 0;"/>
+                                <ListView fx:id="selectedParametersList" styleClass="parameter-list" VBox.vgrow="ALWAYS"/>
+                                
+                                <HBox spacing="5" alignment="CENTER">
+                                    <Button text="清空列表" onAction="#onClearParameterList" style="-fx-font-size: 10px;" prefHeight="20" HBox.hgrow="ALWAYS"/>
+                                    <Button text="生成模板" onAction="#onGenerateTemplate" style="-fx-font-size: 10px;" prefHeight="20" HBox.hgrow="ALWAYS"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            
+            <Tab text="HTTP脚本">
+                <VBox spacing="10" styleClass="content-panel">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="HTTP脚本管理" styleClass="section-title">
+                            <font>
+                                <Font name="System Bold" size="16"/>
+                            </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="新建脚本" onAction="#onNewScript" styleClass="btn-primary"/>
+                        <Button text="删除脚本" onAction="#onDeleteScript" styleClass="btn-danger"/>
+                    </HBox>
+                    
+                    <ListView fx:id="scriptListView" prefHeight="250" styleClass="device-list"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="脚本请求列表" styleClass="section-title">
+                            <font>
+                                <Font name="System Bold" size="14"/>
+                            </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="添加请求" onAction="#onAddRequest" styleClass="btn-primary"/>
+                        <Button text="删除请求" onAction="#onDeleteRequest" styleClass="btn-danger"/>
+                    </HBox>
+                    
+                    <TableView fx:id="requestTableView" VBox.vgrow="ALWAYS" styleClass="device-list">
+                        <columns>
+                            <TableColumn text="序号" prefWidth="60" fx:id="indexColumn"/>
+                            <TableColumn text="方法" prefWidth="80" fx:id="methodColumn"/>
+                            <TableColumn text="URL" prefWidth="300" fx:id="urlColumn"/>
+                            <TableColumn text="应用" prefWidth="150" fx:id="packageColumn"/>
+                            <TableColumn text="请求体" prefWidth="200" fx:id="bodyColumn"/>
+                        </columns>
+                    </TableView>
+                    
+                    <HBox spacing="10" alignment="CENTER" prefHeight="50">
+                        <Button text="执行脚本" onAction="#onExecuteScript" styleClass="btn-success" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+            
+            <Tab text="日志">
+                <VBox spacing="10" styleClass="content-panel">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="系统日志" styleClass="section-title">
+                            <font>
+                                <Font name="System Bold" size="16"/>
+                            </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="清空日志" onAction="#onClearLogs" styleClass="btn-secondary"/>
+                    </HBox>
+                    
+                    <TextArea fx:id="logArea" VBox.vgrow="ALWAYS" styleClass="log-area" 
+                              editable="false" wrapText="false"/>
+                </VBox>
+            </Tab>
+            
+        </TabPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="footer">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            <Label fx:id="deviceCountLabel" text="设备数: 0"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="currentDeviceLabel" text="当前设备: 无"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

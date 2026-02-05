@@ -11,10 +11,13 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// DeepSeek写的
+
 
 public class cfy implements Interceptor {
+    private static final Logger logger = LoggerFactory.getLogger(cfy.class);
 
     private static final int MAX_LOG_LENGTH = 1000;
     private static final String ELLIPSIS = "…";
@@ -54,13 +57,13 @@ public class cfy implements Interceptor {
 
             Response processedResponse = processResponse(response, callTime, sb);
 
-            System.out.println("[HTTP] " + sb.toString());
+            logger.info("[HTTP] " + sb.toString());
 
             return processedResponse;
 
         } catch (Throwable th) {
             sb.append("<-- ").append(th);
-            System.out.println("[HTTP] " + sb.toString());
+            logger.warn("[HTTP] " + sb.toString());
             if (th instanceof IOException) {
                 throw (IOException) th;
             }
@@ -218,12 +221,4 @@ public class cfy implements Interceptor {
         }
     }
 
-    // TODO: 原始代码中的其他方法（如m4522a, b等）需要根据HideRequestLog注解实现
-    public static boolean m4522a(Request request) {
-        return false;
-    }
-
-    public static boolean b(Request request) {
-        return false;
-    }
 }

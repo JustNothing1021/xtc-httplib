@@ -21,14 +21,16 @@ public class WatchInfo implements DeviceInfo {
     private Context context;
     private String watchVersion;
 
+    public ContextManager contextManager;
+
     @Override // com.xtc.httplib.bean.DeviceInfo
     public String getMacAddr() {
         // return "unkown";
-        return ContextManager.getInstance().getMacAddr();
+        return contextManager.getMacAddr();
     }
 
-    public WatchInfo(Context context) {
-        // this.context = context.getApplicationContext();
+    public WatchInfo(Context context, ContextManager manager) {
+        this.contextManager = manager;
     }
 
     @Override // com.xtc.httplib.bean.DeviceInfo
@@ -40,7 +42,7 @@ public class WatchInfo implements DeviceInfo {
         // if (TextUtils.isEmpty(this.bindNumber)) {
         //     this.bindNumber = "unkown";
         // }
-        this.bindNumber = ContextManager.getInstance().getBindNumber();
+        this.bindNumber = contextManager.getBindNumber();
         return this.bindNumber;
     }
 
@@ -50,7 +52,7 @@ public class WatchInfo implements DeviceInfo {
             return this.chipId;
         }
         // this.chipId = getSystemProperty("ro.boot.xtc.chipid");
-        this.chipId = ContextManager.getInstance().getChipId();
+        this.chipId = contextManager.getChipId();
         if (TextUtils.isEmpty(this.chipId)) {
             this.chipId = "unkown";
         }
@@ -63,7 +65,7 @@ public class WatchInfo implements DeviceInfo {
             return this.androidVersion;
         }
         // this.androidVersion = getSystemProperty("ro.build.version.release");
-        this.androidVersion = ContextManager.getInstance().getBuildRelease();
+        this.androidVersion = contextManager.getBuildRelease();
         if (TextUtils.isEmpty(this.androidVersion)) {
             this.androidVersion = "unkown";
         }
@@ -76,7 +78,7 @@ public class WatchInfo implements DeviceInfo {
             return this.watchVersion;
         }
         // this.watchVersion = getSystemProperty(elr.aE);
-        this.watchVersion = ContextManager.getInstance().getSoftVersion();
+        this.watchVersion = contextManager.getSoftVersion();
         if (TextUtils.isEmpty(this.watchVersion)) {
             this.watchVersion = "unkown";
         }
@@ -106,6 +108,6 @@ public class WatchInfo implements DeviceInfo {
     @Override // com.xtc.httplib.bean.DeviceInfo
     public String getBuildType() {
         // return getSystemProperty(elr.aN);
-        return ContextManager.getInstance().getBuildType();
+        return contextManager.getBuildType();
     }
 }

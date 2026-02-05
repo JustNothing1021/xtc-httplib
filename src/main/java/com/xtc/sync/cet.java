@@ -41,6 +41,8 @@ public class cet {
     public String d;
     private final String f;
 
+    public static ContextManager contextManager;
+
     /* renamed from: a, reason: collision with other field name */
     public static final SimpleDateFormat f5264a = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -200,7 +202,7 @@ public class cet {
 
     /* renamed from: a, reason: collision with other method in class */
     public boolean m3036a() {
-        return ContextManager.getInstance().getAndroidSdk() >= 24;
+        return contextManager.getAndroidSdk() >= 24;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:50:0x00d4, code lost:

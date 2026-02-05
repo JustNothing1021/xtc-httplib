@@ -3,13 +3,19 @@ package com.justnothing.xtchttplib;
 import okhttp3.*;
 import okio.Buffer;
 import okio.BufferedSource;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
-// DeepSeek写的
 public class NetworkInterceptor implements Interceptor {
     
+    private static final Logger logger = LoggerFactory.getLogger(NetworkInterceptor.class);
+    
+    @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -20,83 +26,85 @@ public class NetworkInterceptor implements Interceptor {
     }
     
     private void logRequest(Request request) {
-        System.out.println("┌────── 请求开始 ──────");
-        System.out.println("│ 方法: " + request.method());
-        System.out.println("│ URL: " + request.url());
+        logger.info("┌────── 请求开始 ──────");
+        logger.info("│ 方法: " + request.method());
+        logger.info("│ URL: " + request.url());
         
-        // 请求头
         Headers headers = request.headers();
         if (headers.size() > 0) {
-            System.out.println("│ 请求头:");
+            logger.info("│ 请求头:");
             for (int i = 0; i < headers.size(); i++) {
-                System.out.println("│   " + headers.name(i) + ": " + headers.value(i));
+                logger.info("│   " + headers.name(i) + ": " + headers.value(i));
             }
         }
 
-        
         RequestBody requestBody = request.body();
         if (requestBody != null) {
             try {
-                RequestBody copyRequestBody = requestBody;
-                String contentType = copyRequestBody.contentType() != null ? 
-                    copyRequestBody.contentType().toString() : "unknown";
-                System.out.println("│ 请求体[" + contentType + "]:");
+                String contentType = requestBody.contentType() != null ? 
+                    requestBody.contentType().toString() : "unknown";
+                logger.info("│ 请求体[" + contentType + "]:");
                 Buffer buffer = new Buffer();
                 requestBody.writeTo(buffer);
 
-                
                 String bodyString = buffer.readString(StandardCharsets.UTF_8);
-                if (!bodyString.isEmpty()) {
+                if (bodyString == null || bodyString.isEmpty()) {
+                    logger.info("│   (空)");
+                } else {
                     String[] lines = bodyString.split("\n");
                     for (String line : lines) {
-                        System.out.println("│   " + line);
+                        logger.info("│   " + line);
                     }
                 }
             } catch (IOException e) {
-                System.out.println("│   无法读取请求体: " + e.getMessage());
+                logger.error("│   无法读取请求体: " + e.getMessage());
             }
+        } else {
+            logger.info("│ 请求体: (无)");
         }
-        System.out.println("└────── 请求结束 ──────");
+        logger.info("└────── 请求结束 ──────");
     }
     
     private void logResponse(Response response) {
-        System.out.println("┌────── 响应开始 ──────");
-        System.out.println("│ 状态码: " + response.code());
-        System.out.println("│ 消息: " + response.message());
-        System.out.println("│ URL: " + response.request().url());
+        logger.info("┌────── 响应开始 ──────");
+        logger.info("│ 状态码: " + response.code());
+        logger.info("│ 消息: " + response.message());
+        logger.info("│ URL: " + response.request().url());
         
         Headers headers = response.headers();
         if (headers.size() > 0) {
-            System.out.println("│ 响应头:");
+            logger.info("│ 响应头:");
             for (int i = 0; i < headers.size(); i++) {
-                System.out.println("│   " + headers.name(i) + ": " + headers.value(i));
+                logger.info("│   " + headers.name(i) + ": " + headers.value(i));
             }
         }
         
         ResponseBody responseBody = response.body();
         if (responseBody != null) {
             try {
-                ResponseBody copyResponseBody = responseBody;
-                BufferedSource source = copyResponseBody.source();
+                BufferedSource source = responseBody.source();
                 source.request(Long.MAX_VALUE);
-                Buffer buffer = source.buffer();
+                Buffer buffer = source.getBuffer();
                 
-                String contentType = copyResponseBody.contentType() != null ? 
-                    copyResponseBody.contentType().toString() : "unknown";
-                System.out.println("│ 响应体[" + contentType + "]:");
-
+                String contentType = responseBody.contentType() != null ? 
+                    Objects.requireNonNull(responseBody.contentType()).toString() : "unknown";
+                logger.info("│ 响应体[" + contentType + "]:");
                 
                 String bodyString = buffer.clone().readString(StandardCharsets.UTF_8);
-                if (!bodyString.isEmpty()) {
+                if (bodyString.isEmpty()) {
+                    logger.info("│   (空)");
+                } else {
                     String[] lines = bodyString.split("\n");
                     for (String line : lines) {
-                        System.out.println("│   " + line);
+                        logger.info("│   " + line);
                     }
                 }
             } catch (IOException e) {
-                System.out.println("│   无法读取响应体: " + e.getMessage());
+                logger.error("│   无法读取响应体: " + e.getMessage());
             }
+        } else {
+            logger.info("│ 响应体: (无)");
         }
-        System.out.println("└────── 响应结束 ──────");
+        logger.info("└────── 响应结束 ──────");
     }
 }

@@ -2,6 +2,8 @@ package com.xtc.sync;
 
 import android.content.Context;
 import android.text.TextUtils;
+
+import com.justnothing.xtchttplib.ContextManager;
 import com.xtc.system.account.bean.HttpConfig;
 import com.xtc.utils.security.XtcSecurity;
 
@@ -29,6 +31,8 @@ public class dwx {
     private String c;
     private String d;
     private String e;
+    public ContextManager contextManager;
+
 
     /* compiled from: AppInfoImpl.java */
     /* loaded from: classes2.dex */
@@ -36,30 +40,29 @@ public class dwx {
         void a(boolean z);
     }
 
-    public dwx(Context context, a aVar) {
+    public dwx(Context context, a aVar, ContextManager contextManager) {
+        this.contextManager = contextManager;
         this.f8034a = aVar;
         b(context);
         m4419a(context);
     }
 
-    public static dwx a(Context context) {
+    public static dwx a(Context context, a aVar, ContextManager contextManager) {
         if (f25368a == null) {
             synchronized (dwx.class) {
                 if (f25368a == null) {
-                    f25368a = new dwx(context, null);
+                    f25368a = new dwx(context, aVar, contextManager);
                 }
             }
         }
         return f25368a;
     }
 
-    private void a() {
-        // this.f8033a = dxc.a();
-    }
 
     /* renamed from: a, reason: collision with other method in class */
     private void m4419a(Context context) {
-        this.e = new dxe(context).e();
+        dxe dxeVar = new dxe(context, contextManager);
+        this.e = dxeVar.e();
         if ("unkown".equals(this.e)) {
             this.e = null;
             return;
@@ -68,7 +71,8 @@ public class dwx {
     }
 
     private void b(Context context) {
-        this.f8035a = dxa.a(context);
+        dxa dxaVar = new dxa();
+        this.f8035a = dxaVar.a(context, contextManager);
         a aVar = this.f8034a;
         if (aVar != null) {
             aVar.a(this.f8035a != null);
@@ -154,11 +158,4 @@ public class dwx {
         return this.e;
     }
 
-    /* renamed from: a, reason: collision with other method in class */
-    // public Long m4421a() {
-    //     if (this.f8033a == 0) {
-    //         a();
-    //     }
-    //     return Long.valueOf(this.f8033a);
-    // }
 }

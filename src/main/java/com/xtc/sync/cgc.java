@@ -11,11 +11,11 @@ import android.content.Context;
 // import android.os.SystemClock;
 // import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import com.justnothing.xtchttplib.ContextManager;
 import com.xtc.httplib.bean.EncryptData;
 import com.xtc.httplib.bean.NetBaseResult;
 import com.xtc.httplib.constant.HttpRequestEvent;
 import com.xtc.im.transpond.ITranspondCallback;
-import com.xtc.sync.cel;
 import com.xtc.utils.encode.JSONUtil;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -27,7 +27,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
@@ -69,13 +68,16 @@ public class cgc extends cfr {
     /* renamed from: b, reason: collision with other field name */
     public static final List<String> f5367b = new ArrayList();
 
+    public ContextManager contextManager;
+    public elw watchModelUtil;
+
     private Response a(Interceptor.Chain chain) {
         return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public cgc(Context context) {
-        // super(context);
+    public cgc(Context context, ContextManager contextManager) {
+        this.contextManager = contextManager;
         this.f5372a = new AtomicLong(0L);
         this.f5371a = new AtomicInteger(0);
         this.f5370a = new CopyOnWriteArrayList<>();
@@ -212,14 +214,14 @@ public class cgc extends cfr {
         if (TextUtils.isEmpty(mo9347a)) {
             dkw.d(f22980b, "requestByTranspond is empty");
         }
-        EncryptData a3 = cfu.a(cen.a(this.f5323a).m3021a(), request);
+        EncryptData a3 = cfu.a(cen.a(contextManager).m3021a(), request);
         String eebbkKey = a3.getEebbkKey();
         int rsaEncryptType = a3.getRsaEncryptType();
         String aesKey = a3.getAesKey();
         boolean z = rsaEncryptType != 0;
-        String a4 = cfu.a(mo9347a, eebbkKey, z, aesKey);
+        String a4 = cfu.a(mo9347a, eebbkKey, z, aesKey, watchModelUtil);
         byte[] bytes = a4 == null ? null : a4.getBytes();
-        Map<String, String> a5 = cfu.a(this.f5323a, request, str, mo9347a.getBytes(), eebbkKey, z, rsaEncryptType, aesKey);
+        Map<String, String> a5 = cfu.a(this.f5323a, request, str, mo9347a.getBytes(), eebbkKey, z, rsaEncryptType, aesKey, watchModelUtil, contextManager);
         dkw.c(f22980b, "requestByTranspond url = " + str + ", method = " + request.method() + ", requestBody = " + mo9347a);
         dgg.a(str, a2, JSONUtil.toJSON(a5).getBytes(), bytes, iTranspondCallback);
         return a5;
@@ -228,7 +230,7 @@ public class cgc extends cfr {
     private Response a(Request request, String str, Map<String, String> map, b bVar) {
         byte[] bArr;
         NetBaseResult netBaseResult;
-        if (bVar.f5375a || !bVar.f22984b || (bArr = bVar.f5376a) == null || bArr.length <= 0 || (netBaseResult = (NetBaseResult) JSONUtil.fromJSON(cfu.a(this.f5323a, map, new String(bArr), request), NetBaseResult.class)) == null) {
+        if (bVar.f5375a || !bVar.f22984b || (bArr = bVar.f5376a) == null || bArr.length <= 0 || (netBaseResult = (NetBaseResult) JSONUtil.fromJSON(cfu.a(this.f5323a, map, new String(bArr), request, contextManager), NetBaseResult.class)) == null) {
             return null;
         }
         ResponseBody create = ResponseBody.create(MediaType.parse(cel.a.f), JSONUtil.toJSON(netBaseResult));

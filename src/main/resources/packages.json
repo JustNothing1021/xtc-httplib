@@ -1,0 +1,182 @@
+[
+  {
+    "packageName": "android",
+    "versionCode": "27",
+    "versionName": "8.1.0",
+    "packageDisplayName": "Android 系统"
+  },
+  {
+    "packageName": "com.xtc.i3launcher",
+    "versionCode": "921750",
+    "versionName": "12.1.75.Develop_AW_Launcher_J894_G656e131",
+    "packageDisplayName": "手表"
+  },
+  {
+    "packageName": "com.xtc.mmitest",
+    "versionCode": "4",
+    "versionName": "1.2_69c89cd",
+    "packageDisplayName": "MmiTest"
+  },
+  {
+    "packageName": "com.xtc.selftest",
+    "versionCode": "2025051501",
+    "versionName": "master-2025051501-093457",
+    "packageDisplayName": "SelfTest"
+  },
+  {
+    "packageName": "com.xtc.xws",
+    "versionCode": "112370",
+    "versionName": "11.2.37.Develop_Qcom_AW_XtcService_J200_G84840c1_D7fea15d3",
+    "packageDisplayName": "小天才服务"
+  },
+  {
+    "packageName": "com.xtc.setting",
+    "versionCode": "925700",
+    "versionName": "12.5.70.Develop_Qcom_AW_Setting_J897_Gb567702",
+    "packageDisplayName": "手表设置"
+  },
+  {
+    "packageName": "com.xtc.systemagent",
+    "versionCode": "24261",
+    "versionName": "2.4.27.AW_SysAgent_J100_G97de394",
+    "packageDisplayName": "systemAgent"
+  },
+  {
+    "packageName": "com.xtc.validationtest",
+    "versionCode": "1",
+    "versionName": "1.0.020210120",
+    "packageDisplayName": "XTCValidationTest"
+  },
+  {
+    "packageName": "com.xtc.videochat",
+    "versionCode": "63000",
+    "versionName": "6.3.00.Develop_AW_VideoChat_J521_Ga5e277f",
+    "packageDisplayName": "视频通话"
+  },
+  {
+    "packageName": "com.baidu.input.xtcime",
+    "versionCode": "48710",
+    "versionName": "4.8.71.Develop_Qcom_AW_VoiceInput_J207_G3e923dd",
+    "packageDisplayName": "小天才输入法"
+  },
+  {
+    "packageName": "com.xtc.xtcdialer",
+    "versionCode": "27",
+    "versionName": "8.1.0",
+    "packageDisplayName": "Phone"
+  },
+  {
+    "packageName": "com.xtc.cloudservice",
+    "versionCode": "10000",
+    "versionName": "1.0.00.Develop_AW_CloudService_J28_Gd36d893_Da152d2fe",
+    "packageDisplayName": "天才云"
+  },
+  {
+    "packageName": "com.xtc.datacenter",
+    "versionCode": "126220",
+    "versionName": "12.6.22.Develop_Qcom_AW_DataCenter_J463_G7490d96",
+    "packageDisplayName": "数据中心"
+  },
+  {
+    "packageName": "com.xtc.alarmclock",
+    "versionCode": "53100",
+    "versionName": "5.3.10.Develop_AW_AlarmClock_J56_Ge40a801",
+    "packageDisplayName": "闹钟"
+  },
+  {
+    "packageName": "com.xtc.bleaddfriend",
+    "versionCode": "49710",
+    "versionName": "4.9.71.Develop_Qcom_AW_BleAddFriend_J276_G00daa75_D",
+    "packageDisplayName": "加好友"
+  },
+  {
+    "packageName": "com.xtc.funphoto",
+    "versionCode": "53010",
+    "versionName": "5.3.01.Develop_Qcom_AW_FunPhoto_J206_Ga5194e9_D",
+    "packageDisplayName": "爱趣拍"
+  },
+  {
+    "packageName": "com.xtc.grade",
+    "versionCode": "48510",
+    "versionName": "4.8.51.Develop_Qcom_AW_Grade_J237_Ga0403da_D3e98be70",
+    "packageDisplayName": "等级"
+  },
+  {
+    "packageName": "com.xtc.healthcheck",
+    "versionCode": "17510",
+    "versionName": "1.7.51.Develop_Qcom_AW_Health_J223_Gc1086e9",
+    "packageDisplayName": "健康监测"
+  },
+  {
+    "packageName": "com.xtc.intelligentIdentify",
+    "versionCode": "52110",
+    "versionName": "5.2.11.Develop_Qcom_AW_IntelligentIdentify_J213_G033b669",
+    "packageDisplayName": "智能识物"
+  },
+  {
+    "packageName": "com.xtc.migration",
+    "versionCode": "61610",
+    "versionName": "6.1.61.Develop_Qcom_AW_Migration_J277_G0287f9a",
+    "packageDisplayName": "换表助手"
+  },
+  {
+    "packageName": "com.xtc.moment",
+    "versionCode": "53110",
+    "versionName": "5.3.11.Develop_Qcom_AW_Moment_J359_G17c225e_D2e85c07f",
+    "packageDisplayName": "好友圈"
+  },
+  {
+    "packageName": "com.xtc.motion",
+    "versionCode": "51610",
+    "versionName": "5.1.61.AW_Motion_J36_G95b61ea_D70a83b1a",
+    "packageDisplayName": "计步"
+  },
+  {
+    "packageName": "com.xtc.personalcenter",
+    "versionCode": "13530",
+    "versionName": "1.3.53.Develop_AW_PersonalCenter_New_J177_G94b61f3_Dcfe06620",
+    "packageDisplayName": "个人中心"
+  },
+  {
+    "packageName": "com.xtc.photolearn",
+    "versionCode": "113110",
+    "versionName": "11.3.11.Develop_Qcom_AW_PhotoLearn_J228_G9c6905b",
+    "packageDisplayName": "拍立查"
+  },
+  {
+    "packageName": "com.xtc.sport",
+    "versionCode": "114120",
+    "versionName": "11.4.12.Develop_Qcom_AW_Sport1_J417_Ge4cccc1_D25079a41",
+    "packageDisplayName": "运动"
+  },
+  {
+    "packageName": "com.xtc.theme",
+    "versionCode": "123020",
+    "versionName": "12.3.02.Develop_AW_Theme_J158_Gf3cf64b",
+    "packageDisplayName": "个性主题"
+  },
+  {
+    "packageName": "com.xtc.timemanager",
+    "versionCode": "11110",
+    "versionName": "1.1.11.Develop_Qcom_AW_TimeManager_J30_G5b5b6d8_Da6765e37",
+    "packageDisplayName": "时间大师"
+  },
+  {
+    "packageName": "com.xtc.timememory",
+    "versionCode": "50610",
+    "versionName": "5.0.61.Develop_Qcom_AW_TimeMemory_J174_G11c9cc0_D24fb1220",
+    "packageDisplayName": "时光记忆"
+  },
+  {
+    "packageName": "com.xtc.weather",
+    "versionCode": "52110",
+    "versionName": "5.2.11.Develop_Qcom_AW_Weather_J239_Gaab222e",
+    "packageDisplayName": "天气"
+  },
+  {
+    "packageName": "com.xtc.weichat",
+    "versionCode": "57900",
+    "versionName": "5.7.90.Develop_AW_Weichat_J905_G87aa154_D",
+    "packageDisplayName": "微聊"
+  }
+]

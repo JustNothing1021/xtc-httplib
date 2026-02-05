@@ -21,7 +21,10 @@ public class dxe implements dwy {
     private String h;
     private String i;
 
-    public dxe(Context context) {
+    public ContextManager contextManager;
+
+    public dxe(Context context, ContextManager contextManager) {
+        this.contextManager = contextManager;
         // this.f25390a = context.getApplicationContext();
     }
 
@@ -43,17 +46,22 @@ public class dxe implements dwy {
         // if (TextUtils.isEmpty(this.e)) {
         //     this.e = "unkown";
         // }
-        this.e = ContextManager.getInstance().getMacAddr();
+        this.e = contextManager.getMacAddr();
         return this.e;
     }
 
     @Override // com.xtc.sync.dwy
     public String b() {
+        if (contextManager == null) {
+            dkw.e(d, "contextManager is null in dxe.b()");
+            new Exception("contextManager is null").printStackTrace();
+            return "unkown";
+        }
         if (!TextUtils.isEmpty(this.f)) {
             return this.f;
         }
         // this.f = a(elr.aP);
-        this.f = ContextManager.getInstance().getBindNumber();
+        this.f = contextManager.getBindNumber();
         if (TextUtils.isEmpty(this.f)) {
             this.f = "unkown";
         }
@@ -66,7 +74,7 @@ public class dxe implements dwy {
             return this.g;
         }
         // this.g = a("ro.boot.xtc.chipid");
-        this.g = ContextManager.getInstance().getChipId();
+        this.g = contextManager.getChipId();
         if (TextUtils.isEmpty(this.g)) {
             this.g = "unkown";
         }
@@ -79,7 +87,7 @@ public class dxe implements dwy {
             return this.h;
         }
         // this.h = a("ro.build.version.release");
-        this.h = ContextManager.getInstance().getBuildRelease();
+        this.h = contextManager.getBuildRelease();
         if (TextUtils.isEmpty(this.h)) {
             this.h = "unkown";
         }
@@ -92,7 +100,7 @@ public class dxe implements dwy {
             return this.i;
         }
         // this.i = a(elr.aE);
-        this.i = ContextManager.getInstance().getSoftVersion();
+        this.i = contextManager.getSoftVersion();
         if (TextUtils.isEmpty(this.i)) {
             this.i = "unkown";
         }
@@ -113,6 +121,6 @@ public class dxe implements dwy {
     @Override // com.xtc.sync.dwy
     public String f() {
         // return a(elr.aN);
-        return ContextManager.getInstance().getBuildType();
+        return contextManager.getBuildType();
     }
 }

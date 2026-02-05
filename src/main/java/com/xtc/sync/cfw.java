@@ -3,7 +3,6 @@ package com.xtc.sync;
 import android.content.Context;
 import android.text.TextUtils;
 import com.xtc.httplib.constant.HttpRequestEvent;
-import com.xtc.sync.cel;
 import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;

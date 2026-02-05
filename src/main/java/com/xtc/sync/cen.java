@@ -12,8 +12,6 @@ import android.text.TextUtils;
 import com.justnothing.xtchttplib.ContextManager;
 import com.xtc.httplib.bean.AppInfo;
 import com.xtc.im.transpond.TranspondAdapter;
-import com.xtc.sync.cel;
-import com.xtc.system.account.bean.AppInfoBase;
 import com.xtc.system.account.bean.HttpConfig;
 // import com.xtc.system.account.utils.AbsAsyncBroadcastReceiver;
 import java.util.List;
@@ -33,6 +31,9 @@ public class cen {
 
     /* renamed from: a, reason: collision with other field name */
     protected Context f5239a;
+
+    /* renamed from: a, reason: collision with other field name */
+    public ContextManager contextManager;
 
     /* renamed from: a, reason: collision with other field name */
     private cem f5240a;
@@ -55,30 +56,27 @@ public class cen {
     /* renamed from: b, reason: collision with other field name */
     public String f5245b;
 
-    public static cen a(Context context) {
-        if (f5238a == null) {
-            synchronized (cen.class) {
-                if (f5238a == null) {
-                    f5238a = new cen(context);
-                }
-            }
+
+    public static cen a(ContextManager contextManager) {
+        if (contextManager != null) {
+            cen mgr = new cen(null, contextManager);
+            return mgr;
+        } else {
+            throw new IllegalArgumentException("contextManager不能为空");
         }
-        return f5238a;
     }
 
-    private cen(Context context) {
-        // this.f5239a = context.getApplicationContext();
+    public cen(Context context, ContextManager contextManager) {
+        this.contextManager = contextManager;
         d();
         this.f5241a = new a();
         this.f5241a.a(this.f5239a);
         cer.m3029a().a(context);
-        // ces.m3032a().a(context);
-        // cfo.a().a(context);
     }
 
     private void d() {
         m3019a(this.f5239a);
-        this.f5240a = new cft(this.f5239a);
+        this.f5240a = new cft(this.f5239a, this.contextManager);
         // this.f5239a.registerComponentCallbacks(new ComponentCallbacks() { // from class: com.xtc.i3launcher.cen.1
         //     @Override // android.content.ComponentCallbacks
         //     public void onLowMemory() {
@@ -115,7 +113,7 @@ public class cen {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* renamed from: a, reason: collision with other method in class */
     public AppInfo m3020a() {
-        dwx a2 = dwx.a(this.f5239a);
+        dwx a2 = dwx.a(this.f5239a, null, this.contextManager);
         AppInfo appInfo = new AppInfo();
         appInfo.setEncSwitch(a2.d());
         appInfo.setGrey(a2.m4422a());
@@ -234,7 +232,7 @@ public class cen {
     /* JADX INFO: Access modifiers changed from: private */
     public void c(String str) {
         dkw.c(c, "refreshLanguage reason = " + str);
-        String a2 = ContextManager.getInstance().getLanguage();
+        String a2 = contextManager.getLanguage();
         if (a2.startsWith("th")) {
             a2 = "th";
         }
@@ -249,7 +247,7 @@ public class cen {
 
     public String b() {
         if (TextUtils.isEmpty(this.f5245b)) {
-            this.f5245b = ContextManager.getInstance().getTimeZone();
+            this.f5245b = contextManager.getTimeZone();
             dkw.c(c, "getWatchTimeZone is empty, reset watchTimeZone = " + this.f5245b);
         }
         return this.f5245b;
@@ -308,7 +306,8 @@ public class cen {
                 dkw.d(cen.c, "refreshSelfRsaPublicKeyAndId: appInfo is null");
                 return;
             }
-            HttpConfig a2 = dxa.a(cen.this.f5239a);
+            dxa dxaVar = new dxa();
+            HttpConfig a2 = dxaVar.a(cen.this.f5239a, cen.this.contextManager);
             if (a2 == null) {
                 dkw.d(cen.c, "refreshSelfRsaPublicKeyAndId: httpConfig is null");
                 return;
@@ -337,12 +336,13 @@ public class cen {
     }
 
     /* renamed from: a, reason: collision with other method in class */
-    public static String m3018a(Context context) {
+    public static String m3018a(Context context, ContextManager contextManager) {
         // return context.getContentResolver().getType(Uri.parse(d));
-        return ContextManager.getInstance().getWatchId();
+        return contextManager.getWatchId();
     }
 
     public Context a() {
         return this.f5239a;
     }
+
 }

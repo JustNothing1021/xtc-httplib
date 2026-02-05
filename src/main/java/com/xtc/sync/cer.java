@@ -3,7 +3,6 @@ package com.xtc.sync;
 import android.content.Context;
 // import android.content.Intent;
 // import com.xtc.utils.storage.SharedManager;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /* compiled from: HttpAuthManager.java */

@@ -20,10 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+
 import okhttp3.Call;
 import okhttp3.ConnectionPool;
 import okhttp3.Cookie;
@@ -42,6 +40,10 @@ import retrofit2.converter.protobuf.ProtoConverterFactory;
 /* compiled from: DefaultOkHttpClient.java */
 /* loaded from: classes5.dex */
 public class cft extends cem {
+    public ContextManager contextManager;
+    public elw watchModelUtil;
+    private cgc cgcInterceptor;
+    private cfv cfvInterceptor;
 
     /* renamed from: a, reason: collision with other field name */
     public static final String f5326a = "tcp_keep_alive_duration";
@@ -118,8 +120,9 @@ public class cft extends cem {
         return this.f5337d;
     }
 
-    public cft(Context context) {
-        super(context);
+    public cft(Context context, ContextManager contextManager) {
+        super(context, contextManager);
+        this.contextManager = contextManager;
         this.f5335c = "unknown";
         this.f = -1;
         this.f5337d = "unknown";
@@ -179,6 +182,9 @@ public class cft extends cem {
     }
 
     private OkHttpClient.Builder a() {
+        if (contextManager == null) {
+            throw new IllegalArgumentException("contextManager is null");
+        }
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         m3066a(this.f5235a);
         // builder.dns(this.f5330a);
@@ -211,8 +217,12 @@ public class cft extends cem {
         // builder.addInterceptor(new cge());
         // builder.addInterceptor(new cgf());
         // builder.addInterceptor(new cfz(this.f5235a));
-        builder.addInterceptor(new cgc(this.f5235a));
-        builder.addInterceptor(new cfv(this.f5235a, this));
+        cgcInterceptor = new cgc(this.f5235a, this.contextManager);
+        watchModelUtil = new elw(this.contextManager);
+        builder.addInterceptor(cgcInterceptor);
+        cfvInterceptor = new cfv(this.f5235a, this, this.contextManager);
+        cfvInterceptor.watchModelUtil = watchModelUtil;
+        builder.addInterceptor(cfvInterceptor);
         // builder.addInterceptor(new cfs(this.f5235a));
         // if ("com.xtc.i3launcher".equals(this.f5235a.getPackageName())) {
             // builder.addInterceptor(new cfx(this.f5235a));
@@ -228,15 +238,24 @@ public class cft extends cem {
     /* renamed from: a, reason: collision with other method in class */
     private void m3066a(Context context) {
         try {
+            if (contextManager == null) {
+                dkw.d(f5328e, "contextManager is null in m3066a, using default values");
+                this.f = -1;
+                this.f5335c = "unknown";
+                this.f5337d = "unknown";
+                return;
+            }
             // PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             // this.f = packageInfo.versionCode;
-            this.f = ContextManager.getInstance().getPackageVersionCode();
+            Integer packageVersionCode = contextManager.getPackageVersionCode();
+            this.f = packageVersionCode != null ? packageVersionCode : -1;
             // this.f5335c = packageInfo.packageName;
-            this.f5335c = ContextManager.getInstance().getPackageName();
+            this.f5335c = contextManager.getPackageName() != null ? contextManager.getPackageName() : "unknown";
             // this.f5337d = packageInfo.versionName;
-            this.f5337d = ContextManager.getInstance().getPackageVersionName();
+            this.f5337d = contextManager.getPackageVersionName() != null ? contextManager.getPackageVersionName() : "unknown";
         } catch (Exception e2) {
             dkw.e(f5328e, "get app version error = " + e2);
+            e2.printStackTrace();
         }
     }
 
@@ -299,10 +318,6 @@ public class cft extends cem {
         return retrofit;
     }
 
-    private Retrofit b(String str, OkHttpClient okHttpClient, boolean z) {
-        return new Retrofit.Builder().addCallAdapterFactory(a(z)).addConverterFactory(GsonConverterFactory.create(JSONUtil.getGsonBuilder().create())).baseUrl(str).client(okHttpClient).build();
-    }
-
     private CallAdapter.Factory a(boolean z) {
         // if (z) {
         //     return cgo.a();
@@ -343,7 +358,7 @@ public class cft extends cem {
             @Override // okhttp3.Interceptor
             public Response intercept(Interceptor.Chain chain) throws IOException {
                 Request.Builder newBuilder2 = chain.request().newBuilder();
-                for (Map.Entry entry : map.entrySet()) {
+                for (Map.Entry<String, String> entry : map.entrySet()) {
                     newBuilder2 = newBuilder2.addHeader((String) entry.getKey(), (String) entry.getValue());
                 }
                 return chain.proceed(newBuilder2.build());
@@ -372,4 +387,5 @@ public class cft extends cem {
     public Executor m3071a() {
         return this.f5332a;
     }
+
 }
